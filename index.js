@@ -52,7 +52,7 @@ var createStepFn = function(methods, order){
   var list = [], i, len, listMethod = function(){
     //Prime object with methods...
     this.methods = methods;
-    next(arguments);
+    this.apply(this, arguments);
   };
 
   list.push(listMethod);

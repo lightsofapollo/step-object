@@ -5,7 +5,10 @@ describe("step-object", function(){
   
   var subject, fn = function(name){
     return function(){
+      this.argumentStack = this.argumentStack || {};
       this.callOrder = this.callOrder || [];
+
+      this.argumentStack[name] = Array.prototype.slice.call(arguments);
       return this.callOrder.push(name);
     };
   };
@@ -90,8 +93,6 @@ describe("step-object", function(){
 
     describe(".methods", function(){
 
-      it("should have a reference")
-
       it("should have a reference to methods defined in first argument", function(){
         expect(subject.methods.one).toBe(fn1);
         expect(subject.methods.two).toBe(fn2);
@@ -117,6 +118,17 @@ describe("step-object", function(){
         });
 
         expect(list).toEqual(['2', '1']);
+
+      });
+
+      it("should have recieved given arguments", function(){
+        var arg = {}, argStack;
+
+        subject(arg, function(){
+          argStack = this.argumentStack;
+        });
+
+        expect(argStack['2']).toEqual([arg]);
 
       });
 
