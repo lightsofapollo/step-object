@@ -4,11 +4,25 @@
   "keywords": ["step", "oop", "control flow"],
   "main": "index.js",
   "author": "James Lal <james@lightsofapollo.com>",
+
+  "homepage": "https://github.com/lightsofapollo/step-object",
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:lightsofapollo/step-object.git"
+  },
+
+  "scripts": {
+    "test": "make test"
+  },
+
   "dependencies": {
     "step": "~0.0.5"
   },
+
   "devDependencies": {
     "jasmine-node": "~1.0"
   },
-  "version": "0.0.1"
+
+  "version": "0.0.2"
 }
