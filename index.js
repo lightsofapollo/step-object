@@ -49,7 +49,13 @@ Creates step function based on methods and order.
 @param {Array} order order to call the functions in methods
 */
 var createStepFn = function(methods, order){
-  var list = [], i, len;
+  var list = [], i, len, listMethod = function(){
+    //Prime object with methods...
+    this.methods = methods;
+    next(arguments);
+  };
+
+  list.push(listMethod);
 
   for(i = 0, len = order.length; i < len; i++){
     list.push(methods[order[i]]);

@@ -12,12 +12,13 @@ describe("step-object", function(){
 
   var fn1 = fn('1'), fn2 = fn('2'); 
 
-
   beforeEach(function(){
+
     subject = StepObject({
       one: fn1,
       two: fn2
     }, ['two', 'one']);
+
   });
 
   describe(".inheritObject", function(){
@@ -36,16 +37,21 @@ describe("step-object", function(){
 
       expect(subject.one).toEqual('1');
     });
-  });
 
+  });
 
   describe("inherting a step", function(){
 
-    var subclass, fnNew = fn('special');
+    var subclass, fnNew = fn('special'), methods, fn2 = function(){
+          methods = this.methods;
+          this.callOrder = this.callOrder || [];
+          return this.callOrder.push('2');
+        };
 
     beforeEach(function(){
       subclass = subject.inherit({
-        one: fnNew
+        one: fnNew,
+        two: fn2
       });
     });
 
@@ -67,6 +73,10 @@ describe("step-object", function(){
 
     describe(".methods", function(){
 
+      it("be able to call other methods on object", function(){
+        expect(methods.one).toBe(fnNew);
+      });
+
       it("should have a reference to both new and old methods", function(){
         expect(subclass.methods.one).toBe(fnNew);
         expect(subclass.methods.two).toBe(fn2);
@@ -79,6 +89,8 @@ describe("step-object", function(){
   describe("creating a step", function(){
 
     describe(".methods", function(){
+
+      it("should have a reference")
 
       it("should have a reference to methods defined in first argument", function(){
         expect(subject.methods.one).toBe(fn1);
@@ -111,6 +123,5 @@ describe("step-object", function(){
     });
 
   });
-
 
 });
