@@ -49,9 +49,16 @@ Creates step function based on methods and order.
 @param {Array} order order to call the functions in methods
 */
 var createStepFn = function(methods, order){
-  var list = [], i, len, listMethod = function(){
+  var list = [], i, len, methodObject, listMethod = function(){
+    //We want all properties minus those on Object
+    var hasOwn = Object.prototype.hasOwnProperty;
+
     //Prime object with methods...
-    this.methods = methods;
+    for(method in methods){
+      // not checking for has own property intentionally
+      this[method] = methods[method];
+    }
+
     this.apply(this, arguments);
   };
 

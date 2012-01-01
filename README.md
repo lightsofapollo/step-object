@@ -11,27 +11,32 @@ Example:
 
     var ReadDir = StepObject({
 
-      queueRead: function(path){
-        fs.readdir(path, this);
-      },
-      
-      _processFiles: function(files){
-        return files;
+      _filter: function(files){
+        var filteredFiles;
+
+        //some filter logic
+        return filteredFiles;
       },
 
-      fsReadDir: function(err, files){
+      queue: function(path){
+        fs.readdir(path, this);
+      },
+
+      read: function(err, files){
         if(err){
           throw err;
         }
-      }
 
-    }, ['queueRead', 'fsReadDir']);
+        return this._filter(files);
+      },
+
+    }, ['queue', 'read']);
 
     ReadDir(function(err, files){
-      //files is the result of fsReadDir
+      //files is the result of read
     });
 
     //Once the object is created you can also gain access to its methods (for unit testing)
-    ReadDir.methods //{queueRead: ....}
+    ReadDir.methods //{queue: ....}
     ReadDir.order //['queueRead', 'fsReadDir']
     
