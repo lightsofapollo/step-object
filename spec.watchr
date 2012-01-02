@@ -1,7 +1,7 @@
-watch 'spec/*.js' do
+watch 'spec/(.*)\.js' do
   puts `jasmine-node spec`
 end
 
-watch 'index.js' do
+watch 'lib/(.*)\.js' do
   puts `jasmine-node spec`
 end
