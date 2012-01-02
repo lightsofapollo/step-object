@@ -10,7 +10,7 @@ describe("Mock StepObject spec helper", function(){
     }
   };
 
-  order = ['init', 'nextCall', 'groupCall', 'parallelCall', 'methodCall']
+  order = ['init', 'syncCall', 'nextCall', 'groupCall', 'parallelCall', 'methodCall']
 
   methods = {
     _helper: function(){
@@ -29,10 +29,12 @@ describe("Mock StepObject spec helper", function(){
       return true;
     },
 
+    syncCall: function(){
+      this.calls.push('syncCall');
+      return 'woot!';
+    },
+
     nextCall: function(){
-      if(this.debug){
-        console.log('fooo!!');
-      }
       this.calls.push('nextCall');
       spy.onMe(this);
     },
@@ -82,6 +84,49 @@ describe("Mock StepObject spec helper", function(){
 
         done();
       });
+    });
+
+  });
+
+  describe("when calling a sync step", function(){
+
+    beforeEach(function(){
+      subject.init();
+      subject.syncCall();
+    });
+
+    it("should not call the following step", function(){
+      expect(subject.calls).toEqual(['init', 'syncCall']);
+    });
+
+  });
+
+  describe("spying on .group calls", function(){
+
+    beforeEach(function(){
+      //We need to init the call first because its not done for us.
+      subject.init();
+      subject.groupCall();
+    });
+
+    it("should have passed a group into spy.onMe", function(){
+      //The wrapper causes subject.group() to return itself.
+      expect(spy.onMe).toHaveBeenCalledWith(subject.group);
+    });
+  
+  });
+
+  describe("spying on .parallel calls", function(){
+
+    beforeEach(function(){
+      //We need to init the call first because its not done for us.
+      subject.init();
+      subject.parallelCall();
+    });
+
+    it("should have passed a group into spy.onMe", function(){
+      //The wrapper causes subject.group() to return itself.
+      expect(spy.onMe).toHaveBeenCalledWith(subject.parallel);
     });
 
   });
