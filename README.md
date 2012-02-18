@@ -4,9 +4,6 @@ Still an experiment at this stage.
 
 ## Step Creation
 
-
-```JavaScript
-
     var StepObject = require('step-object'),
         fs = require('fs');
 
@@ -36,6 +33,9 @@ Still an experiment at this stage.
     ReadDir(function(err, files){
       //files is the result of read
     });
+    
+    
+    
 
 ## Testing
 
@@ -51,7 +51,6 @@ execution. This is the same object you refer to when using 'this' inside
 of your step methods.
 
 
-```
     //Note that this will not call queue from the above example
     var subject = require('step-object/lib/mock-step-object')(ReadDir);
 
@@ -64,7 +63,6 @@ halts because its effectivly waiting for a callback to execute.
 
 So if you did the following:
 
-```
     subject(); 
     //(which is the same as `this()` or next inside of step scope)
 
@@ -83,11 +81,11 @@ themselves. This is so you can spy for them inside of your tests.
 You can also gain access to methods and order of the StepObject at
 anytime with:
 
-
-
-
-```
     ReadDir.methods //{queue: ....}
     ReadDir.order //['queueRead', 'fsReadDir']
 
 
+
+## License
+
+See LICENSE (MIT)
