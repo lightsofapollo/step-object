@@ -31,8 +31,8 @@ describe("step-object", function(){
     describe(".methods", function(){
 
       it("should have a reference to methods defined in first argument", function(){
-        expect(subject.methods.one).toBe(fn1);
-        expect(subject.methods.two).toBe(fn2);
+        expect(subject.methods.one).to.be(fn1);
+        expect(subject.methods.two).to.be(fn2);
       });
 
     });
@@ -40,7 +40,7 @@ describe("step-object", function(){
     describe(".order", function(){
 
       it("should return the second argument of creation", function(){
-        expect(subject.order).toEqual(['two', 'one']);
+        expect(subject.order).to.eql(['two', 'one']);
       });
 
     });
@@ -55,13 +55,13 @@ describe("step-object", function(){
           //create context by calling subject step
           subject(function(){
             return true;
-          })
+          });
         });
 
         it("should have copied methods to scope of this (which is next)", function(){
           //remember context updated when step is called.
-          expect(context.one).toBe(fn1);
-          expect(context.two).toBe(fn2);
+          expect(context.one).to.be(fn1);
+          expect(context.two).to.be(fn2);
         });
 
       });
@@ -71,7 +71,7 @@ describe("step-object", function(){
           list = this.callOrder;
         });
 
-        expect(list).toEqual(['2', '1']);
+        expect(list).to.eql(['2', '1']);
 
       });
 
@@ -82,7 +82,7 @@ describe("step-object", function(){
           argStack = this.argumentStack;
         });
 
-        expect(argStack['2']).toEqual([arg]);
+        expect(argStack['2']).to.eql([arg]);
 
       });
 
@@ -100,11 +100,11 @@ describe("step-object", function(){
     });
 
     it("should have inherited properties of base object", function(){
-      expect(subject.one).toEqual('one');
+      expect(subject.one).to.eql('one');
 
       delete subject.one;
 
-      expect(subject.one).toEqual('1');
+      expect(subject.one).to.eql('1');
     });
 
   });
@@ -131,7 +131,7 @@ describe("step-object", function(){
           return list;
         });
 
-        expect(list).toEqual(['2', 'special']);
+        expect(list).to.eql(['2', 'special']);
 
       });
 
@@ -139,11 +139,11 @@ describe("step-object", function(){
 
         it("should have copied new methods to scope of this", function(){
           //remember context updated when step is called.
-          expect(context.one).toBe(fnNew);
+          expect(context.one).to.be(fnNew);
         });
 
         it("should correctly copy inherited methods", function(){
-          expect(context.two).toBe(fn2);
+          expect(context.two).to.be(fn2);
         });
 
       });
@@ -153,12 +153,12 @@ describe("step-object", function(){
     describe(".methods", function(){
 
       it("should have a reference to new methods", function(){
-        expect(subclass.methods.one).toBe(fnNew);
+        expect(subclass.methods.one).to.be(fnNew);
       });
 
       it("should have a reference to old methods", function(){
 
-        expect(subclass.methods.two).toBe(fn2);
+        expect(subclass.methods.two).to.be(fn2);
       });
 
     });

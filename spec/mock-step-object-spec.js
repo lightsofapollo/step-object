@@ -10,7 +10,7 @@ describe("Mock StepObject spec helper", function(){
     }
   };
 
-  order = ['init', 'syncCall', 'nextCall', 'groupCall', 'parallelCall', 'methodCall']
+  order = ['init', 'syncCall', 'nextCall', 'groupCall', 'parallelCall', 'methodCall'];
 
   methods = {
     _helper: function(){
@@ -68,7 +68,7 @@ describe("Mock StepObject spec helper", function(){
   );
 
   beforeEach(function(){
-    spyOn(spy, 'onMe').andCallThrough();
+    sinon.spy(spy, 'onMe');
 
     subject = MockStep(StepSubject);
   });
@@ -79,8 +79,8 @@ describe("Mock StepObject spec helper", function(){
 
     it("should execute each step in correct order", function(done){
       StepSubject(function(err, result){
-        expect(result).toEqual(expectedResult);
-        expect(context.calls).toEqual(order);
+        expect(result).to.eql(expectedResult);
+        expect(context.calls).to.eql(order);
 
         done();
       });
@@ -96,7 +96,7 @@ describe("Mock StepObject spec helper", function(){
     });
 
     it("should not call the following step", function(){
-      expect(subject.calls).toEqual(['init', 'syncCall']);
+      expect(subject.calls).to.eql(['init', 'syncCall']);
     });
 
   });
@@ -111,7 +111,7 @@ describe("Mock StepObject spec helper", function(){
 
     it("should have passed a group into spy.onMe", function(){
       //The wrapper causes subject.group() to return itself.
-      expect(spy.onMe).toHaveBeenCalledWith(subject.group);
+      expect(spy.onMe).was.calledWith(subject.group);
     });
   
   });
@@ -126,7 +126,7 @@ describe("Mock StepObject spec helper", function(){
 
     it("should have passed a group into spy.onMe", function(){
       //The wrapper causes subject.group() to return itself.
-      expect(spy.onMe).toHaveBeenCalledWith(subject.parallel);
+      expect(spy.onMe).was.calledWith(subject.parallel);
     });
 
   });
@@ -134,19 +134,20 @@ describe("Mock StepObject spec helper", function(){
   describe("returning an 'in context' StepObject without execution logic", function(){
 
     it("should have stopped execution before init", function(){
-      expect(subject.calls).toBe(undefined);
+      expect(subject.calls).to.be(undefined);
     });
 
     it("should have a real context with all methods defined", function(){
+      var method;
       for(method in methods){
-        expect(subject[method]).toBe(methods[method]);
+        expect(subject[method]).to.be(methods[method]);
       }
     });
 
     it("should be in the same context", function(){
       subject.init();
 
-      expect(subject).toBe(context);
+      expect(subject).to.be(context);
     });
 
   });
