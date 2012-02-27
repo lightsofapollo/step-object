@@ -64,6 +64,10 @@ describe("step-object", function(){
           expect(context.two).to.be(fn2);
         });
 
+        it("should include a reference to .next which is step itself", function(){
+            expect(context.next).to.be(context);
+        });
+
       });
 
       it("should execute functions in order", function(){

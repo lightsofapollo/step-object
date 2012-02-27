@@ -36,7 +36,7 @@ describe("Mock StepObject spec helper", function(){
 
     nextCall: function(){
       this.calls.push('nextCall');
-      spy.onMe(this);
+      spy.onMe(this.next());
     },
 
     groupCall: function(){

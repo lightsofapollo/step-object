@@ -1,8 +1,7 @@
-var StepObject = require('step-object');
+var StepObject = require('../lib/step-object');
 
 describe("step-object", function(){
 
-  
   var subject, context, fn = function(name){
     return function(){
       context = this;
@@ -91,7 +90,7 @@ describe("step-object", function(){
   });
 
   describe(".inheritObject", function(){
-    var subject, 
+    var subject,
         obj = {one: '1'},
         props = {one: 'one'};
 
